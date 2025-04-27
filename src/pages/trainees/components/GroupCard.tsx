@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { TraineeGroup } from "@/types/fitness.types";
-import { Group } from "lucide-react";
+import { Group, UserRound } from "lucide-react";
 import { mockUsers } from "@/data/mockData";
 
 interface GroupCardProps {
