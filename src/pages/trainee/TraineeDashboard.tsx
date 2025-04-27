@@ -1,9 +1,9 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { mockGroups, mockProgressData, mockUsers, mockWorkoutPlans, mockWorkouts } from "@/data/mockData";
 import { Dumbbell, CalendarCheck, Calendar, Activity, BarChart, CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";
-import { BarChart as Chart } from "@/components/ui/chart";
+import { ChartContainer } from "@/components/ui/chart";
+import { BarChart as RechartsBarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { useAuth } from "@/context/AuthContext";
 
 export default function TraineeDashboard() {
@@ -12,14 +12,11 @@ export default function TraineeDashboard() {
 
   const traineeId = user.id;
   
-  // Filter data for the current trainee
   const traineeGroups = mockGroups.filter(group => group.trainees.includes(traineeId));
   const traineePlans = mockWorkoutPlans.filter(plan => plan.trainees.includes(traineeId));
   
-  // Get trainee progress data
   const traineeProgress = mockProgressData.filter(progress => progress.userId === traineeId);
   
-  // Find upcoming workouts
   const upcomingWorkouts = traineePlans.flatMap(plan => 
     plan.workouts
       .filter(workout => !workout.completed && new Date(workout.scheduledDate) > new Date())
@@ -32,12 +29,10 @@ export default function TraineeDashboard() {
   ).sort((a, b) => new Date(a.scheduledDate).getTime() - new Date(b.scheduledDate).getTime())
    .slice(0, 3);
   
-  // Calculate stats
   const totalWorkoutsCompleted = traineeProgress.length;
   const totalCaloriesBurned = traineeProgress.reduce((sum, progress) => sum + (progress.caloriesBurned || 0), 0);
   const totalMinutesWorkedOut = traineeProgress.reduce((sum, progress) => sum + progress.duration, 0);
   
-  // Create chart data for last 7 days of activity
   const activityData = Array.from({ length: 7 }, (_, i) => {
     const date = new Date();
     date.setDate(date.getDate() - i);
@@ -54,7 +49,7 @@ export default function TraineeDashboard() {
     return {
       name: dateString,
       minutes,
-      calories: calories / 10 // Scale down calories to fit on the same chart
+      calories: calories / 10
     };
   }).reverse();
 
@@ -119,15 +114,25 @@ export default function TraineeDashboard() {
             <CardDescription>Minutes and calories over the last 7 days</CardDescription>
           </CardHeader>
           <CardContent className="pl-2">
-            <Chart 
+            <ChartContainer 
               data={activityData} 
-              categories={["minutes", "calories"]}
-              index="name"
-              yAxisWidth={30}
+              config={{
+                minutes: { label: "Minutes", color: "#30B8B2" },
+                calories: { label: "Calories (÷10)", color: "#FF6B6B" }
+              }}
               className="h-[300px]"
-              colors={["#30B8B2", "#FF6B6B"]}
-              valueFormatter={(value) => `${value}`}
-            />
+            >
+              <ResponsiveContainer width="100%" height="100%">
+                <RechartsBarChart data={activityData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis width={30} />
+                  <Tooltip />
+                  <Bar dataKey="minutes" fill="#30B8B2" />
+                  <Bar dataKey="calories" fill="#FF6B6B" />
+                </RechartsBarChart>
+              </ResponsiveContainer>
+            </ChartContainer>
             <div className="flex justify-center gap-8 mt-2 text-sm">
               <div className="flex items-center">
                 <div className="w-3 h-3 bg-fit-primary rounded-full mr-2"></div>
