@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,14 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Fitness app specific colors
+				fit: {
+					primary: '#30B8B2',    // Teal
+					secondary: '#1A2B5F',  // Navy Blue
+					accent: '#FF6B6B',     // Coral
+					light: '#F0F2F5',      // Light Gray
+					dark: '#2D3748',       // Dark Gray
 				}
 			},
 			borderRadius: {
