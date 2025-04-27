@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,6 +9,7 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import { AppLayout } from "./components/layout/AppLayout";
 import Dashboard from "./pages/Dashboard";
+import WorkoutsPage from "./pages/workouts/WorkoutsPage";
 
 const queryClient = new QueryClient();
 
@@ -26,8 +26,7 @@ const App = () => (
             <Route path="/" element={<AppLayout />}>
               <Route index element={<Dashboard />} />
               <Route path="dashboard" element={<Dashboard />} />
-              {/* The following routes would be implemented in future iterations */}
-              <Route path="workouts" element={<div className="p-4">Workouts page will be implemented in the next iteration</div>} />
+              <Route path="workouts" element={<WorkoutsPage />} />
               <Route path="trainees" element={<div className="p-4">Trainees page will be implemented in the next iteration</div>} />
               <Route path="progress" element={<div className="p-4">Progress page will be implemented in the next iteration</div>} />
               <Route path="schedule" element={<div className="p-4">Schedule page will be implemented in the next iteration</div>} />
