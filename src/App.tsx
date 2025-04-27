@@ -11,6 +11,7 @@ import { AppLayout } from "./components/layout/AppLayout";
 import Dashboard from "./pages/Dashboard";
 import WorkoutsPage from "./pages/workouts/WorkoutsPage";
 import TraineesPage from "./pages/trainees/TraineesPage";
+import ProgressPage from "./pages/progress/ProgressPage";
 
 const queryClient = new QueryClient();
 
@@ -29,7 +30,7 @@ const App = () => (
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="workouts" element={<WorkoutsPage />} />
               <Route path="trainees" element={<TraineesPage />} />
-              <Route path="progress" element={<div className="p-4">Progress page will be implemented in the next iteration</div>} />
+              <Route path="progress" element={<ProgressPage />} />
               <Route path="schedule" element={<div className="p-4">Schedule page will be implemented in the next iteration</div>} />
               <Route path="my-workouts" element={<div className="p-4">My Workouts page will be implemented in the next iteration</div>} />
               <Route path="my-progress" element={<div className="p-4">My Progress page will be implemented in the next iteration</div>} />
