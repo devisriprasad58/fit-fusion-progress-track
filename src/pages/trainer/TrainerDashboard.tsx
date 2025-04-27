@@ -109,7 +109,6 @@ export default function TrainerDashboard() {
           </CardHeader>
           <CardContent className="pl-2">
             <ChartContainer 
-              data={workoutCompletionData} 
               config={{
                 total: { label: "Total Workouts", color: "#30B8B2" }
               }}

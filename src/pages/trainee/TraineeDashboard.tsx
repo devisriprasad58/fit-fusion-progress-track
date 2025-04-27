@@ -115,7 +115,6 @@ export default function TraineeDashboard() {
           </CardHeader>
           <CardContent className="pl-2">
             <ChartContainer 
-              data={activityData} 
               config={{
                 minutes: { label: "Minutes", color: "#30B8B2" },
                 calories: { label: "Calories (÷10)", color: "#FF6B6B" }
