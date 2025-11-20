@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { useAuth } from "@/context/AuthContext";
 import { Dumbbell } from "lucide-react";
 import { UserRole } from "@/types/fitness.types";
+import { toast } from "sonner";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -16,25 +17,43 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState<UserRole>("trainer");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState("");
   
-  const { register } = useAuth();
+  const { register, user } = useAuth();
   const navigate = useNavigate();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    
+    if (!email || !name || !password || !confirmPassword) {
+      toast.error("Please fill in all fields");
+      return;
+    }
     
     if (password !== confirmPassword) {
-      setError("Passwords don't match");
+      toast.error("Passwords don't match");
+      return;
+    }
+
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters");
       return;
     }
     
     setIsSubmitting(true);
 
     try {
-      const success = await register(email, name, role, password);
-      if (success) {
+      const result = await register(email, name, role, password);
+      if (result.error) {
+        toast.error(result.error);
+      } else {
+        toast.success("Account created successfully!");
         navigate("/dashboard");
       }
     } finally {
@@ -114,9 +133,6 @@ export default function Register() {
                         required
                       />
                     </div>
-                    {error && (
-                      <div className="text-red-500 text-sm">{error}</div>
-                    )}
                     <Button 
                       type="submit" 
                       className="w-full bg-fit-primary hover:bg-fit-primary/90"
@@ -186,9 +202,6 @@ export default function Register() {
                         required
                       />
                     </div>
-                    {error && (
-                      <div className="text-red-500 text-sm">{error}</div>
-                    )}
                     <Button 
                       type="submit" 
                       className="w-full bg-fit-primary hover:bg-fit-primary/90"
