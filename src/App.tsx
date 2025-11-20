@@ -13,6 +13,7 @@ import WorkoutsPage from "./pages/workouts/WorkoutsPage";
 import TraineesPage from "./pages/trainees/TraineesPage";
 import ProgressPage from "./pages/progress/ProgressPage";
 import SchedulePage from "./pages/schedule/SchedulePage";
+import AssistantPage from "./pages/assistant/AssistantPage";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => (
               <Route path="trainees" element={<TraineesPage />} />
               <Route path="progress" element={<ProgressPage />} />
               <Route path="schedule" element={<SchedulePage />} />
+              <Route path="assistant" element={<AssistantPage />} />
               <Route path="my-workouts" element={<div className="p-4">My Workouts page will be implemented in the next iteration</div>} />
               <Route path="my-progress" element={<div className="p-4">My Progress page will be implemented in the next iteration</div>} />
               <Route path="history" element={<div className="p-4">History page will be implemented in the next iteration</div>} />
