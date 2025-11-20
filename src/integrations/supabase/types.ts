@@ -14,6 +14,192 @@ export type Database = {
   }
   public: {
     Tables: {
+      exercises: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          duration: number
+          id: string
+          name: string
+          notes: string | null
+          reps: number | null
+          sets: number | null
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          duration: number
+          id?: string
+          name: string
+          notes?: string | null
+          reps?: number | null
+          sets?: number | null
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          duration?: number
+          id?: string
+          name?: string
+          notes?: string | null
+          reps?: number | null
+          sets?: number | null
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      group_members: {
+        Row: {
+          created_at: string
+          group_id: string
+          id: string
+          trainee_id: string
+        }
+        Insert: {
+          created_at?: string
+          group_id: string
+          id?: string
+          trainee_id: string
+        }
+        Update: {
+          created_at?: string
+          group_id?: string
+          id?: string
+          trainee_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "group_members_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "trainee_groups"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invites: {
+        Row: {
+          created_at: string
+          email: string
+          expires_at: string
+          group_id: string | null
+          id: string
+          status: string
+          trainer_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          expires_at: string
+          group_id?: string | null
+          id?: string
+          status?: string
+          trainer_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          expires_at?: string
+          group_id?: string | null
+          id?: string
+          status?: string
+          trainer_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invites_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "trainee_groups"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      plan_trainees: {
+        Row: {
+          created_at: string
+          id: string
+          plan_id: string
+          trainee_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          plan_id: string
+          trainee_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          plan_id?: string
+          trainee_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "plan_trainees_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "workout_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      plan_workouts: {
+        Row: {
+          completed: boolean
+          completed_date: string | null
+          created_at: string
+          feedback: string | null
+          id: string
+          plan_id: string
+          scheduled_date: string
+          updated_at: string
+          workout_id: string
+        }
+        Insert: {
+          completed?: boolean
+          completed_date?: string | null
+          created_at?: string
+          feedback?: string | null
+          id?: string
+          plan_id: string
+          scheduled_date: string
+          updated_at?: string
+          workout_id: string
+        }
+        Update: {
+          completed?: boolean
+          completed_date?: string | null
+          created_at?: string
+          feedback?: string | null
+          id?: string
+          plan_id?: string
+          scheduled_date?: string
+          updated_at?: string
+          workout_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "plan_workouts_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "workout_plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "plan_workouts_workout_id_fkey"
+            columns: ["workout_id"]
+            isOneToOne: false
+            referencedRelation: "workouts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
@@ -38,6 +224,30 @@ export type Database = {
         }
         Relationships: []
       }
+      trainee_groups: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          trainer_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          trainer_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          trainer_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -56,6 +266,168 @@ export type Database = {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
+        }
+        Relationships: []
+      }
+      workout_exercises: {
+        Row: {
+          created_at: string
+          exercise_id: string
+          id: string
+          order_index: number
+          workout_id: string
+        }
+        Insert: {
+          created_at?: string
+          exercise_id: string
+          id?: string
+          order_index?: number
+          workout_id: string
+        }
+        Update: {
+          created_at?: string
+          exercise_id?: string
+          id?: string
+          order_index?: number
+          workout_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workout_exercises_exercise_id_fkey"
+            columns: ["exercise_id"]
+            isOneToOne: false
+            referencedRelation: "exercises"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workout_exercises_workout_id_fkey"
+            columns: ["workout_id"]
+            isOneToOne: false
+            referencedRelation: "workouts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workout_plans: {
+        Row: {
+          created_at: string
+          description: string | null
+          end_date: string | null
+          id: string
+          name: string
+          start_date: string
+          trainer_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          name: string
+          start_date: string
+          trainer_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          name?: string
+          start_date?: string
+          trainer_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      workout_progress: {
+        Row: {
+          avg_heart_rate: number | null
+          calories_burned: number | null
+          completed_date: string
+          created_at: string
+          duration: number
+          id: string
+          max_heart_rate: number | null
+          notes: string | null
+          plan_id: string | null
+          user_id: string
+          workout_id: string
+        }
+        Insert: {
+          avg_heart_rate?: number | null
+          calories_burned?: number | null
+          completed_date: string
+          created_at?: string
+          duration: number
+          id?: string
+          max_heart_rate?: number | null
+          notes?: string | null
+          plan_id?: string | null
+          user_id: string
+          workout_id: string
+        }
+        Update: {
+          avg_heart_rate?: number | null
+          calories_burned?: number | null
+          completed_date?: string
+          created_at?: string
+          duration?: number
+          id?: string
+          max_heart_rate?: number | null
+          notes?: string | null
+          plan_id?: string | null
+          user_id?: string
+          workout_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workout_progress_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "workout_plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workout_progress_workout_id_fkey"
+            columns: ["workout_id"]
+            isOneToOne: false
+            referencedRelation: "workouts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workouts: {
+        Row: {
+          created_at: string
+          created_by: string
+          description: string | null
+          difficulty: string
+          duration: number
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          description?: string | null
+          difficulty: string
+          duration: number
+          id?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          difficulty?: string
+          duration?: number
+          id?: string
+          name?: string
+          updated_at?: string
         }
         Relationships: []
       }
