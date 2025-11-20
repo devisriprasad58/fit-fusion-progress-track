@@ -1,0 +1,4 @@
+project_id = "fncblcfdasfrjykxayaz"
+
+[functions.ai-fitness-assistant]
+verify_jwt = false

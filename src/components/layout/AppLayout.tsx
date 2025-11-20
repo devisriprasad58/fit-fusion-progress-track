@@ -4,7 +4,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { User, UserButton } from "../ui/user";
 import { Separator } from "@/components/ui/separator";
-import { Dumbbell, Home, BarChart, Calendar, ClockArrowDown, Users } from "lucide-react";
+import { Dumbbell, Home, BarChart, Calendar, ClockArrowDown, Users, MessageSquare } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
@@ -38,12 +38,14 @@ export const AppLayout = () => {
         { name: "Trainees", path: "/trainees", icon: Users },
         { name: "Progress", path: "/progress", icon: BarChart },
         { name: "Schedule", path: "/schedule", icon: Calendar },
+        { name: "AI Assistant", path: "/assistant", icon: MessageSquare },
       ]
     : [
         { name: "Dashboard", path: "/dashboard", icon: Home },
         { name: "My Workouts", path: "/my-workouts", icon: Dumbbell },
         { name: "My Progress", path: "/my-progress", icon: BarChart },
         { name: "History", path: "/history", icon: ClockArrowDown },
+        { name: "AI Assistant", path: "/assistant", icon: MessageSquare },
       ];
 
   return (
@@ -91,6 +93,7 @@ export const AppLayout = () => {
              location.pathname.startsWith('/trainees') ? 'Trainees' :
              location.pathname.startsWith('/progress') ? 'Progress' :
              location.pathname.startsWith('/schedule') ? 'Schedule' :
+             location.pathname.startsWith('/assistant') ? 'AI Assistant' :
              location.pathname.startsWith('/my-workouts') ? 'My Workouts' :
              location.pathname.startsWith('/my-progress') ? 'My Progress' :
              location.pathname.startsWith('/history') ? 'History' : ''}
